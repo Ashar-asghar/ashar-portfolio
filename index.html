@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ashar Asghar — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #080b0f;
+      --surface:   #0e1218;
+      --card:      #131820;
+      --glass:     rgba(255,255,255,0.03);
+      --gold:      #c9a84c;
+      --gold-lt:   #e8c96e;
+      --teal:      #4ec9b0;
+      --text:      #e8e2d9;
+      --muted:     #6b7280;
+      --border:    rgba(201,168,76,0.15);
+      --border2:   rgba(255,255,255,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── GRAIN TEXTURE ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── CURSOR GLOW ── */
+    .cursor-glow {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      z-index: 1;
+      transition: opacity 0.3s;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: rgba(8,11,15,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold-lt); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 60px 80px;
+    }
+
+    /* Geometric BG lines */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-bg svg {
+      width: 100%; height: 100%;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-left { position: relative; }
+
+    /* Large decorative letter */
+    .hero-deco-char {
+      position: absolute;
+      top: -40px; right: -20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 280px;
+      font-weight: 700;
+      color: rgba(201,168,76,0.04);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 6vw, 88px);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -2px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-title {
+      margin-top: 24px;
+      font-size: 14px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--teal);
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    /* Avatar */
+    .avatar-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .avatar-frame {
+      position: relative;
+      width: 280px;
+      height: 280px;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      animation: spin 20s linear infinite;
+    }
+
+    .avatar-ring::after {
+      content: '';
+      position: absolute;
+      top: -3px; left: 50%;
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .avatar-img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(201,168,76,0.3);
+    }
+
+    .avatar-initials {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a2235 0%, #0e1622 100%);
+      border: 2px solid rgba(201,168,76,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .avatar-initials span:first-child {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .avatar-initials span:last-child {
+      font-size: 11px;
+      letter-spacing: 5px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* Contact badges */
+    .contact-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 40px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--glass);
+      border: 1px solid var(--border2);
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-size: 13px;
+      color: var(--muted);
+      width: fit-content;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .badge:hover { border-color: var(--border); color: var(--text); }
+
+    .badge-icon {
+      width: 28px; height: 28px;
+      background: rgba(201,168,76,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+    }
+
+    .badge a { color: inherit; text-decoration: none; }
+
+    /* Profile card */
+    .profile-card {
+      background: var(--glass);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 40px;
+      backdrop-filter: blur(12px);
+      animation: fadeUp 0.8s 0.25s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .profile-label {
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .profile-text {
+      font-size: 15px;
+      color: #9ca3af;
+      line-height: 1.9;
+    }
+
+    .profile-text strong { color: var(--text); font-weight: 500; }
+
+    /* ── SECTION BASE ── */
+    .section {
+      padding: 100px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .section-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px;
+      font-weight: 300;
+      color: rgba(201,168,76,0.12);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .section-title-wrap { }
+
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+    /* ── SKILLS ── */
+    .skills-section { background: var(--surface); }
+
+    .skills-section > .section-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 60px;
+    }
+
+    .skills-categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .skill-cat {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 32px;
+      transition: border-color 0.4s, transform 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-cat::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--gold), var(--teal));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .skill-cat:hover { border-color: var(--border); transform: translateY(-6px); }
+    .skill-cat:hover::after { transform: scaleX(1); }
+
+    .skill-cat-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .skill-cat-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gold-lt);
+      margin-bottom: 20px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      font-size: 12px;
+      padding: 5px 14px;
+      border-radius: 50px;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      background: rgba(255,255,255,0.02);
+      transition: all 0.3s;
+    }
+
+    .skill-cat:hover .skill-tag {
+      border-color: rgba(201,168,76,0.2);
+      color: var(--text);
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+
+    .exp-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .exp-card {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 36px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--gold), var(--teal));
+      border-radius: 0 3px 3px 0;
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.5s ease;
+    }
+
+    .exp-card.visible { opacity: 1; transform: translateY(0); }
+    .exp-card:hover { border-color: var(--border); }
+    .exp-card:hover::before { transform: scaleY(1); }
+
+    .exp-icon-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .exp-icon {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+
+    .exp-duration {
+      font-size: 11px;
+      color: var(--teal);
+      letter-spacing: 1px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .exp-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .exp-role-badge {
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 50px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.2);
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .exp-points {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .exp-points li {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .exp-points li::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-section { background: var(--surface); }
+    .edu-section > .section-wrap { max-width: 1200px; margin: 0 auto; padding: 100px 60px; }
+
+    .edu-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .edu-card:hover { border-color: var(--border); transform: translateY(-6px); }
+
+    .edu-card-num {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 60px;
+      font-weight: 700;
+      color: rgba(201,168,76,0.06);
+      line-height: 1;
+    }
+
+    .edu-card-icon { font-size: 32px; margin-bottom: 20px; }
+
+    .edu-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .edu-card-sub {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .edu-card-tag {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid rgba(78,201,176,0.2);
+      border-radius: 50px;
+      padding: 4px 12px;
+    }
+
+    /* ── LANGUAGES & TYPING ── */
+    .extras-section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+
+    .extras-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .extra-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .extra-card-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--gold-lt);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .extra-card-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border2);
+    }
+
+    .lang-item { margin-bottom: 24px; }
+
+    .lang-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .lang-name { font-size: 14px; color: var(--text); font-weight: 400; }
+
+    .lang-level {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .lang-track {
+      height: 2px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 99px;
+      position: relative;
+    }
+
+    .lang-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(to right, var(--gold), var(--teal));
+      width: 0;
+      transition: width 1.4s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* Typing speed */
+    .typing-display {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .typing-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 100px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      position: relative;
+    }
+
+    .typing-big::after {
+      content: 'WPM';
+      position: absolute;
+      bottom: 8px;
+      left: calc(100% + 8px);
+      font-size: 18px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 3px;
+    }
+
+    .typing-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 280px;
+    }
+
+    /* Dots pattern */
+    .extra-card.typing-card {
+      background-image: radial-gradient(circle, rgba(201,168,76,0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* ── CTA BANNER ── */
+    .cta-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border2);
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .cta-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .cta-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .cta-text em { font-style: italic; color: var(--gold); }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 36px;
+      background: linear-gradient(135deg, var(--gold), #a87e30);
+      color: #080b0f;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      white-space: nowrap;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(201,168,76,0.25);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border2);
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    /* ── DIVIDER ── */
+    .hr {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border2), transparent);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+
+      .hero { padding: 100px 24px 60px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-deco-char { display: none; }
+      .avatar-frame { width: 200px; height: 200px; }
+      .avatar-container { order: -1; }
+
+      .section { padding: 64px 24px; }
+      .skills-section > .section-wrap,
+      .edu-section > .section-wrap,
+      .extras-section,
+      .exp-section { padding: 64px 24px; }
+
+      .skills-categories { grid-template-columns: 1fr; }
+      .exp-card { grid-template-columns: 1fr; }
+      .exp-icon-wrap { flex-direction: row; justify-content: flex-start; align-items: center; }
+      .exp-points { grid-template-columns: 1fr; }
+      .edu-row { grid-template-columns: 1fr; }
+      .extras-grid { grid-template-columns: 1fr; }
+      .cta-inner { flex-direction: column; text-align: center; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor-glow" id="glow"></div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-logo">AA</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero" id="contact">
+  <div class="hero-bg">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="grd1" cx="30%" cy="60%" r="50%">
+          <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.06"/>
+          <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="grd2" cx="80%" cy="30%" r="40%">
+          <stop offset="0%" stop-color="#4ec9b0" stop-opacity="0.05"/>
+          <stop offset="100%" stop-color="#4ec9b0" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grd1)"/>
+      <rect width="100%" height="100%" fill="url(#grd2)"/>
+      <!-- Grid lines -->
+      <g stroke="rgba(255,255,255,0.025)" stroke-width="1">
+        <line x1="0" y1="200" x2="1440" y2="200"/>
+        <line x1="0" y1="450" x2="1440" y2="450"/>
+        <line x1="0" y1="700" x2="1440" y2="700"/>
+        <line x1="360" y1="0" x2="360" y2="900"/>
+        <line x1="720" y1="0" x2="720" y2="900"/>
+        <line x1="1080" y1="0" x2="1080" y2="900"/>
+      </g>
+      <!-- Diagonal accent line -->
+      <line x1="0" y1="900" x2="600" y2="0" stroke="rgba(201,168,76,0.04)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-deco-char">A</div>
+      <p class="hero-eyebrow">Portfolio 2025</p>
+      <h1 class="hero-name">
+        Ashar<br/>
+        <em>Asghar</em>
+      </h1>
+      <p class="hero-title">Office Management &nbsp;·&nbsp; Graphic Design &nbsp;·&nbsp; Customer Service</p>
+
+      <div class="contact-badges">
+        <div class="badge"><div class="badge-icon">📞</div> +92 331 6771000</div>
+        <div class="badge"><div class="badge-icon">✉️</div><a href="mailto:asharlegend6@gmail.com">asharlegend6@gmail.com</a></div>
+        <div class="badge"><div class="badge-icon">📍</div> Sambrial, Sialkot, Punjab</div>
+      </div>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-frame">
+        <div class="avatar-ring"></div>
+        <img src="ashar-photo.jpg" alt="Ashar Asghar" class="avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="avatar-initials" style="display:none;">
+          <span>AA</span>
+          <span>Portfolio</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Profile summary row -->
+<div style="background: var(--surface); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2);">
+  <div style="max-width:1200px; margin:0 auto; padding: 60px 60px; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;">
+    <div class="reveal">
+      <p class="profile-label">About Me</p>
+      <p class="profile-text">
+        Skilled and motivated professional with hands-on experience in <strong>graphic design</strong>, <strong>office management</strong>, and <strong>call center operations</strong>. Proficient in <strong>Python automation</strong> to streamline workflows, with a consistent record of delivering high-quality work under pressure.
+      </p>
+    </div>
+    <div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div style="background:var(--card); border:1px solid var(--border2); border-radius:16px; padding:24px; text-align:center;">
+        <div style="font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:700; color:var(--gold); line-height:1;">3</div>
+        <div style="font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:6px;">Roles Held</div>
+      </div>
+      <div style="background:var(--card); border:1px solid var(--border2); border-radius:16px; padding:24px; text-align:center;">
+        <div style="font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:700; color:var(--teal); line-height:1;">18</div>
+        <div style="font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:6px;">Months Exp.</div>
+      </div>
+      <div style="background:var(--card); border:1px solid var(--border2); border-radius:16px; padding:24px; text-align:center;">
+        <div style="font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:700; color:var(--gold); line-height:1;">9</div>
+        <div style="font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:6px;">Skills</div>
+      </div>
+      <div style="background:var(--card); border:1px solid var(--border2); border-radius:16px; padding:24px; text-align:center;">
+        <div style="font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:700; color:var(--teal); line-height:1;">2</div>
+        <div style="font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:6px;">Languages</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SKILLS ══ -->
+<div class="skills-section" id="skills">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-num">01</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">What I Bring</div>
+        <h2 class="section-title">Core Skills</h2>
+      </div>
+    </div>
+    <div class="skills-categories">
+      <div class="skill-cat reveal">
+        <div class="skill-cat-icon">📞</div>
+        <div class="skill-cat-title">Communication</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Call Center Operations</span>
+          <span class="skill-tag">Customer Handling</span>
+          <span class="skill-tag">Communication Skills</span>
+          <span class="skill-tag">Conflict Resolution</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="skill-cat-icon">💻</div>
+        <div class="skill-cat-title">Technical</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python Automation</span>
+          <span class="skill-tag">MS Word</span>
+          <span class="skill-tag">MS Excel</span>
+          <span class="skill-tag">Data Entry</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="skill-cat-icon">🎨</div>
+        <div class="skill-cat-title">Creative & Management</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Graphic Design</span>
+          <span class="skill-tag">Office Management</span>
+          <span class="skill-tag">Time Management</span>
+          <span class="skill-tag">Teamwork</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EXPERIENCE ══ -->
+<div class="exp-section" id="experience">
+  <div class="section-header reveal">
+    <div class="section-num">02</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Career Journey</div>
+      <h2 class="section-title">Work Experience</h2>
+    </div>
+  </div>
+  <div class="exp-grid">
+
+    <div class="exp-card">
+      <div class="exp-icon-wrap">
+        <div class="exp-icon">📞</div>
+        <div class="exp-duration">6 Months</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">
+          Call Center Representative
+          <span class="exp-role-badge">Customer Service</span>
+        </div>
+        <ul class="exp-points">
+          <li>Handled inbound and outbound customer calls professionally</li>
+          <li>Resolved customer inquiries and complaints efficiently</li>
+          <li>Maintained accurate call records and followed company scripts</li>
+          <li>Used Python automation tools to streamline repetitive tasks</li>
+          <li>Developed strong communication and customer-handling skills</li>
+          <li>Consistently met call-handling targets and quality benchmarks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-icon-wrap">
+        <div class="exp-icon">🎨</div>
+        <div class="exp-duration">6 Months</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">
+          Graphic Design Assistant
+          <span class="exp-role-badge">Creative</span>
+        </div>
+        <ul class="exp-points">
+          <li>Designed posters, banners, and social media graphics</li>
+          <li>Assisted in logo editing and promotional material creation</li>
+          <li>Followed client requirements and met project deadlines</li>
+          <li>Supported senior designers with daily design tasks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-icon-wrap">
+        <div class="exp-icon">🗂️</div>
+        <div class="exp-duration">6 Months</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">
+          Office Management Assistant
+          <span class="exp-role-badge">Administration</span>
+        </div>
+        <ul class="exp-points">
+          <li>Managed office files, documents, and records efficiently</li>
+          <li>Performed data entry and prepared basic reports</li>
+          <li>Assisted in daily administrative and clerical tasks</li>
+          <li>Used MS Word and Excel to complete office assignments</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ EDUCATION ══ -->
+<div class="edu-section" id="education">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-num">03</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">Academic Background</div>
+        <h2 class="section-title">Education</h2>
+      </div>
+    </div>
+    <div class="edu-row">
+      <div class="edu-card reveal">
+        <div class="edu-card-num">1</div>
+        <div class="edu-card-icon">🎓</div>
+        <div class="edu-card-title">Intermediate (ICS / ISC)</div>
+        <div class="edu-card-sub">Completed Intermediate Education in Science & Computing</div>
+        <span class="edu-card-tag">Academic</span>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-card-num">2</div>
+        <div class="edu-card-icon">📜</div>
+        <div class="edu-card-title">Office Management Certification</div>
+        <div class="edu-card-sub">Professional certification in office administration & management</div>
+        <span class="edu-card-tag">Certification</span>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-card-num">3</div>
+        <div class="edu-card-icon">🖌️</div>
+        <div class="edu-card-title">Graphic Design Certification</div>
+        <div class="edu-card-sub">Professional certification in visual design & branding</div>
+        <span class="edu-card-tag">Certification</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LANGUAGES & TYPING ══ -->
+<div class="extras-section">
+  <div class="section-header reveal">
+    <div class="section-num">04</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Communication & Productivity</div>
+      <h2 class="section-title">Languages & Typing</h2>
+    </div>
+  </div>
+  <div class="extras-grid">
+    <div class="extra-card reveal">
+      <div class="extra-card-heading">Languages</div>
+      <div class="lang-item">
+        <div class="lang-header">
+          <span class="lang-name">English</span>
+          <span class="lang-level">Proficient</span>
+        </div>
+        <div class="lang-track"><div class="lang-fill" data-w="80%"></div></div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-header">
+          <span class="lang-name">Urdu</span>
+          <span class="lang-level">Native</span>
+        </div>
+        <div class="lang-track"><div class="lang-fill" data-w="100%"></div></div>
+      </div>
+    </div>
+
+    <div class="extra-card typing-card reveal">
+      <div class="extra-card-heading">Typing Speed</div>
+      <div class="typing-display">
+        <div class="typing-big">25<sup style="font-size:32px; color:var(--muted)">+</sup></div>
+        <div class="typing-desc">
+          Consistent typing speed of over 25 words per minute, enabling efficient data entry, document processing, and administrative tasks.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CTA ══ -->
+<div class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="cta-text">
+      Ready to bring value<br/>to your <em>team</em>?
+    </div>
+    <a href="mailto:asharlegend6@gmail.com" class="cta-btn">
+      ✉ &nbsp; Get In Touch
+    </a>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">Ashar Asghar</div>
+  <div class="footer-copy">&copy; 2025 &nbsp;·&nbsp; Sialkot, Pakistan</div>
+</footer>
+
+<script>
+  // Cursor glow
+  const glow = document.getElementById('glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+  });
+
+  // Scroll reveal — all .reveal + .exp-card
+  const allReveal = document.querySelectorAll('.reveal, .exp-card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), 80 * i);
+      }
+    });
+  }, { threshold: 0.12 });
+  allReveal.forEach(el => io.observe(el));
+
+  // Language bar animation
+  const bars = document.querySelectorAll('.lang-fill');
+  const barIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.style.width = e.target.dataset.w;
+    });
+  }, { threshold: 0.5 });
+  bars.forEach(b => barIO.observe(b));
+</script>
+</body>
+</html>
