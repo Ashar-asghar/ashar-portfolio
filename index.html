@@ -819,16 +819,20 @@
 
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── RESPONSIVE ── */
+    .profile-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 60px; }
+    @media (max-width: 900px) { .profile-summary-grid { grid-template-columns: 1fr; padding: 48px 24px; gap: 32px; } }
+    @media (max-width: 480px) { .profile-summary-grid { padding: 40px 16px; gap: 24px; } }
     @media (max-width: 900px) {
       nav { padding: 16px 24px; }
       .nav-links { display: none; }
 
       .hero { padding: 100px 24px 60px; }
-      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
       .hero-deco-char { display: none; }
       .avatar-frame { width: 200px; height: 200px; }
-      .avatar-container { order: -1; }
+      .avatar-container { order: -1; justify-content: center; }
+      .hero-eyebrow { justify-content: center; }
+      .contact-badges { align-items: center; }
 
       .section { padding: 64px 24px; }
       .skills-section > .section-wrap,
@@ -844,6 +848,52 @@
       .extras-grid { grid-template-columns: 1fr; }
       .cta-inner { flex-direction: column; text-align: center; }
       footer { flex-direction: column; gap: 12px; text-align: center; }
+      .section-num { font-size: 52px; }
+    }
+
+    /* ── RESPONSIVE MOBILE ── */
+    @media (max-width: 480px) {
+      nav { padding: 14px 16px; }
+      .nav-logo { font-size: 18px; }
+
+      .hero { padding: 90px 16px 48px; }
+      .hero-name { font-size: 52px; letter-spacing: -1px; }
+      .hero-title { font-size: 11px; letter-spacing: 2px; }
+      .avatar-frame { width: 160px; height: 160px; }
+      .badge { font-size: 12px; padding: 8px 14px; }
+      .badge-icon { width: 24px; height: 24px; font-size: 11px; }
+
+      .skills-section > .section-wrap,
+      .edu-section > .section-wrap,
+      .extras-section,
+      .exp-section { padding: 48px 16px; }
+
+      .section-num { font-size: 40px; }
+      .section-title { font-size: 28px; }
+
+      .skill-cat { padding: 20px; }
+      .skill-cat-title { font-size: 17px; }
+      .skill-tag { font-size: 11px; padding: 4px 10px; }
+
+      .exp-card { padding: 20px 16px; gap: 16px; }
+      .exp-role { font-size: 20px; flex-wrap: wrap; }
+      .exp-role-badge { font-size: 9px; }
+      .exp-points li { font-size: 12px; }
+      .exp-icon { width: 48px; height: 48px; font-size: 20px; }
+
+      .edu-card { padding: 24px 20px; }
+      .edu-card-title { font-size: 18px; }
+
+      .extra-card { padding: 24px 20px; }
+      .extra-card-heading { font-size: 22px; }
+      .typing-big { font-size: 72px; }
+      .typing-big::after { font-size: 14px; }
+
+      .cta-inner { padding: 48px 16px; }
+      .cta-text { font-size: 26px; }
+      .cta-btn { padding: 14px 28px; font-size: 11px; }
+
+      footer { padding: 32px 16px; }
     }
   </style>
 </head>
@@ -924,7 +974,7 @@
 
 <!-- Profile summary row -->
 <div style="background: var(--surface); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2);">
-  <div style="max-width:1200px; margin:0 auto; padding: 60px 60px; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;">
+  <div class="profile-summary-grid">
     <div class="reveal">
       <p class="profile-label">About Me</p>
       <p class="profile-text">
