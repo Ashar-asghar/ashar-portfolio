@@ -726,6 +726,194 @@
       background-size: 24px 24px;
     }
 
+    
+    /* ── DESIGN WORK GALLERY ── */
+    .work-section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+
+    .work-intro {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: -32px 0 48px;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 20px;
+    }
+
+    .work-item {
+      grid-column: span 2;
+      position: relative;
+      display: block;
+      padding: 0;
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--card);
+      cursor: zoom-in;
+      aspect-ratio: 16 / 9;
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      transition: border-color 0.4s, transform 0.4s;
+    }
+
+    .work-item:nth-child(n+4) { grid-column: span 3; }
+
+    .work-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .work-item::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--gold), var(--teal));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+
+    .work-cap {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 48px 22px 18px;
+      background: linear-gradient(to top, rgba(8,11,15,0.92), rgba(8,11,15,0));
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+
+    .work-cap b {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .work-cap i {
+      font-style: normal;
+      font-size: 12px;
+      color: var(--teal);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .work-item:hover,
+    .work-item:focus-visible { border-color: var(--border); transform: translateY(-6px); }
+    .work-item:hover img,
+    .work-item:focus-visible img { transform: scale(1.04); }
+    .work-item:hover::after,
+    .work-item:focus-visible::after { transform: scaleX(1); }
+    .work-item:hover .work-cap,
+    .work-item:focus-visible .work-cap { opacity: 1; transform: translateY(0); }
+    .work-item:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    /* Touch screens: no hover, so keep captions visible */
+    @media (hover: none) {
+      .work-cap { opacity: 1; transform: none; padding-top: 36px; }
+      .work-cap b { font-size: 18px; }
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; inset: 0;
+      z-index: 10000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 56px 72px 32px;
+      background: rgba(8,11,15,0.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .lightbox.open { display: flex; animation: lbIn 0.25s ease both; }
+    @keyframes lbIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: calc(100vh - 150px);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+
+    .lightbox-info {
+      display: flex;
+      gap: 16px;
+      align-items: baseline;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .lightbox-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .lb-btn {
+      position: absolute;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      color: var(--gold-lt);
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .lb-btn:hover { background: rgba(201,168,76,0.12); border-color: var(--gold); }
+    .lb-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .lb-close { top: 20px; right: 24px; }
+    .lb-prev  { left: 20px;  top: 50%; transform: translateY(-50%); }
+    .lb-next  { right: 20px; top: 50%; transform: translateY(-50%); }
+
+    @media (max-width: 900px) {
+      .work-section { padding: 64px 24px; }
+      .work-intro { margin-top: -24px; }
+      .work-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .work-item,
+      .work-item:nth-child(n+4) { grid-column: span 1; }
+      .work-item:first-child { grid-column: span 2; }
+      .lightbox { padding: 64px 16px 24px; }
+      .lb-prev, .lb-next { top: auto; bottom: 20px; transform: none; }
+      .lb-prev { left: calc(50% - 60px); }
+      .lb-next { right: calc(50% - 60px); }
+      .lightbox-img { max-height: calc(100vh - 220px); }
+    }
+
+    @media (max-width: 480px) {
+      .work-section { padding: 48px 16px; }
+      .work-grid { grid-template-columns: 1fr; }
+      .work-item,
+      .work-item:first-child,
+      .work-item:nth-child(n+4) { grid-column: span 1; }
+      .work-item { border-radius: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .work-item, .work-item img, .work-cap { transition: none; }
+      .lightbox.open { animation: none; }
+    }
+
     /* ── CTA BANNER ── */
     .cta-section {
       background: var(--surface);
@@ -906,6 +1094,7 @@
   <div class="nav-logo">AA</div>
   <ul class="nav-links">
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#work">Design Work</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -1047,10 +1236,52 @@
   </div>
 </div>
 
+<!-- ══ DESIGN WORK ══ -->
+<div class="work-section" id="work">
+  <div class="section-header reveal">
+    <div class="section-num">02</div>
+    <div class="section-title-wrap">
+      <div class="section-eyebrow">Graphic Design</div>
+      <h2 class="section-title">Thumbnail Work</h2>
+    </div>
+  </div>
+  <p class="work-intro reveal">YouTube thumbnails designed in Photoshop. Select any design to view it full size.</p>
+  <div class="work-grid">
+      <button type="button" class="work-item reveal" data-title="GTA V" data-sub="Police" data-src="images/day-02-gta-v-police.jpg" aria-label="View GTA V">
+        <img src="images/day-02-gta-v-police.jpg" alt="GTA V thumbnail with a police car and flaming wheels" loading="lazy" width="1600" height="900" />
+        <span class="work-cap"><b>GTA V</b><i>Police</i></span>
+      </button>
+      <button type="button" class="work-item reveal" data-title="Game Changer" data-sub="" data-src="images/day-04-game-changer.jpg" aria-label="View Game Changer">
+        <img src="images/day-04-game-changer.jpg" alt="Thumbnail with a shocked man and the words Game Changer" loading="lazy" width="1600" height="900" />
+        <span class="work-cap"><b>Game Changer</b></span>
+      </button>
+      <button type="button" class="work-item reveal" data-title="Secrets of Motivation" data-sub="Must Watch" data-src="images/day-05-secrets-of-motivation.jpg" aria-label="View Secrets of Motivation">
+        <img src="images/day-05-secrets-of-motivation.jpg" alt="Thumbnail of a man in a hat holding a finger to his lips, titled Secrets of Motivation" loading="lazy" width="1600" height="900" />
+        <span class="work-cap"><b>Secrets of Motivation</b><i>Must Watch</i></span>
+      </button>
+      <button type="button" class="work-item reveal" data-title="Failure!" data-sub="Brutally Honest" data-src="images/day-07-failure.jpg" aria-label="View Failure!">
+        <img src="images/day-07-failure.jpg" alt="Thumbnail of a man holding his head, titled Failure, brutally honest" loading="lazy" width="1600" height="900" />
+        <span class="work-cap"><b>Failure!</b><i>Brutally Honest</i></span>
+      </button>
+      <button type="button" class="work-item reveal" data-title="Master Thumbnail Design" data-sub="" data-src="images/day-10-master-thumbnail-design.jpg" aria-label="View Master Thumbnail Design">
+        <img src="images/day-10-master-thumbnail-design.jpg" alt="Thumbnail titled Master Thumbnail Design with a smiling man and the Photoshop logo" loading="lazy" width="1600" height="900" />
+        <span class="work-cap"><b>Master Thumbnail Design</b></span>
+      </button>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Design preview">
+  <button type="button" class="lb-btn lb-close" id="lbClose" aria-label="Close preview">&times;</button>
+  <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="Previous design">&#8592;</button>
+  <img class="lightbox-img" id="lbImg" src="" alt="" />
+  <div class="lightbox-info"><span class="lightbox-title" id="lbTitle"></span><span id="lbMeta"></span></div>
+  <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="Next design">&#8594;</button>
+</div>
+
 <!-- ══ EXPERIENCE ══ -->
 <div class="exp-section" id="experience">
   <div class="section-header reveal">
-    <div class="section-num">02</div>
+    <div class="section-num">03</div>
     <div class="section-title-wrap">
       <div class="section-eyebrow">Career Journey</div>
       <h2 class="section-title">Work Experience</h2>
@@ -1124,7 +1355,7 @@
 <div class="edu-section" id="education">
   <div class="section-wrap">
     <div class="section-header reveal">
-      <div class="section-num">03</div>
+      <div class="section-num">04</div>
       <div class="section-title-wrap">
         <div class="section-eyebrow">Academic Background</div>
         <h2 class="section-title">Education</h2>
@@ -1159,7 +1390,7 @@
 <!-- ══ LANGUAGES & TYPING ══ -->
 <div class="extras-section">
   <div class="section-header reveal">
-    <div class="section-num">04</div>
+    <div class="section-num">05</div>
     <div class="section-title-wrap">
       <div class="section-eyebrow">Communication & Productivity</div>
       <h2 class="section-title">Languages & Typing</h2>
@@ -1241,6 +1472,50 @@
     });
   }, { threshold: 0.5 });
   bars.forEach(b => barIO.observe(b));
+
+  // Design work lightbox
+  (function () {
+    const items = Array.from(document.querySelectorAll('.work-item'));
+    const box = document.getElementById('lightbox');
+    const img = document.getElementById('lbImg');
+    const title = document.getElementById('lbTitle');
+    const meta = document.getElementById('lbMeta');
+    const closeBtn = document.getElementById('lbClose');
+    let current = 0, opener = null;
+
+    function show(i) {
+      current = (i + items.length) % items.length;
+      const it = items[current];
+      img.src = it.dataset.src;
+      img.alt = it.querySelector('img').alt;
+      title.textContent = it.dataset.title;
+      meta.textContent = (it.dataset.sub ? it.dataset.sub + '  \u00b7  ' : '') + (current + 1) + ' of ' + items.length;
+    }
+    function open(i) {
+      opener = items[i];
+      show(i);
+      box.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function close() {
+      box.classList.remove('open');
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    items.forEach((it, i) => it.addEventListener('click', () => open(i)));
+    closeBtn.addEventListener('click', close);
+    document.getElementById('lbPrev').addEventListener('click', () => show(current - 1));
+    document.getElementById('lbNext').addEventListener('click', () => show(current + 1));
+    box.addEventListener('click', e => { if (e.target === box) close(); });
+    document.addEventListener('keydown', e => {
+      if (!box.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+  })();
 </script>
 </body>
 </html>
